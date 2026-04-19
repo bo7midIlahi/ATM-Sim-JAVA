@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -62,7 +63,7 @@ public class MainWindow {
         return label;
     }
 
-    public MainWindow() {
+    public MainWindow(File accountFile) {
         window = new JFrame();
         window.setTitle("ATM");
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
