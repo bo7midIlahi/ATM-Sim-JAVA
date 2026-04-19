@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MainWindow {
     private JFrame window;
@@ -11,12 +13,14 @@ public class MainWindow {
         window.setSize(800,600); //set size
         window.setLayout(new BorderLayout(5,5));
 
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER,10,5));
+
         window.add(new JButton("NORTH"), BorderLayout.NORTH);
         window.add(new JButton("WEST"), BorderLayout.WEST);
         window.add(new JButton("EAST"), BorderLayout.EAST);
         window.add(new JButton("SOUTH"), BorderLayout.SOUTH);
-        window.add(new JButton("CENTER1"), BorderLayout.CENTER);
-        window.add(new JButton("CENTER2"), BorderLayout.CENTER);
+        window.add(panel, BorderLayout.CENTER);
 
         window.setLocationRelativeTo(null); //center window
     }
