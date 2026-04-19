@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,23 +26,23 @@ public class MainWindow {
                 break;
             
             case "DEPOSIT":
-                btn.setToolTipText("time to put some cheese on dat account");
+                btn.setToolTipText("time to PUT some CHEESE on dat account");
                 break;
 
             case "CASH WITHDRAWL":
-                btn.setToolTipText("pay them bills yo brokey");
+                btn.setToolTipText("pay them bills yo BROKEY");
                 break;
 
             case "PIN CHANGE":
-                btn.setToolTipText("manage security yo idiot");
+                btn.setToolTipText("manage security yo IDIOT");
                 break;
 
             case "BALANCE EQUITY":
-                btn.setToolTipText("see your balance peasant");
+                btn.setToolTipText("see your balance PEASANT");
                 break;
 
             case "TRANSFER":
-                btn.setToolTipText("give people their money yo thief");
+                btn.setToolTipText("give people their money yo THIEF");
                 break;
 
             case "MINI STATEMENT":
@@ -73,6 +75,15 @@ public class MainWindow {
         JButton btnBalanceEquity = createButton("BALANCE EQUITY");
         JButton btnTransfer = createButton("TRANSFER");
         JButton btnMiniStatement = createButton("MINI STATEMENT");
+
+        //creating ActionListener for each button
+        btnExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("EXITING APP");
+                System.exit(1);
+            }
+        });
 
         //adding buttons to panel
         panelButton.add(btnDepost);
