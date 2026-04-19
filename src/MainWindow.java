@@ -6,7 +6,7 @@ public class MainWindow {
         window = new JFrame(); //create window
         window.setTitle("ATM"); //set title for atm
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //set cross button to close window when clicked
-        window.setSize(600,800); //set size
+        window.setSize(800,600); //set size
         window.setLocationRelativeTo(null); //center window
     }
 
