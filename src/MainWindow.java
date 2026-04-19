@@ -16,6 +16,7 @@ public class MainWindow {
         btn.setFont(new Font("Serif", Font.BOLD, 30));
         btn.setBackground(new Color(0,0,0));
         btn.setForeground(new Color(255, 255, 255)); //set font color
+        btn.setFocusable(false); //remove the box around text when clicked
         return btn;
     };
 
