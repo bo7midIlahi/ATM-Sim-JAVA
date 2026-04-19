@@ -5,8 +5,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainWindow {
@@ -56,12 +58,24 @@ public class MainWindow {
         return btn;
     };
 
+    private JLabel createLabel(String message){
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Serif", Font.BOLD, 15));
+        label.setForeground(new Color(0, 0, 0));
+        return label;
+    }
+
     public MainWindow(){
         window = new JFrame(); //create window
         window.setTitle("ATM"); //set title for atm
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //set cross button to close window when clicked
         window.setSize(800,600); //set size
         window.setLayout(new BorderLayout(5,5));
+
+        JPanel panelText = new JPanel();
+        panelText.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JLabel label = createLabel("CHOOSE OPERATION");
+        panelText.add(label);
 
         JPanel panelButton = new JPanel(); //Panel is a container for other Swing components
         panelButton.setLayout(new FlowLayout(FlowLayout.CENTER,10,5));
@@ -95,7 +109,7 @@ public class MainWindow {
         panelButton.add(btnExit);
 
 
-        window.add(new JButton("NORTH"), BorderLayout.NORTH);
+        window.add(panelText, BorderLayout.NORTH);
         window.add(new JButton("SOUTH"), BorderLayout.SOUTH);
         window.add(panelButton, BorderLayout.CENTER);
 
