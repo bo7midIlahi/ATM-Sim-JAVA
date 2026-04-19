@@ -1,0 +1,67 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+public class DepositWindow extends JPanel {
+    private MainWindow mainWindow;
+    private JTextField amountField;
+
+    public DepositWindow(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+
+        setLayout(new BorderLayout(10, 10));
+
+        //title
+        JLabel titleLabel = mainWindow.createLabel("DEPOSIT FUNDS", 30);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titleLabel, BorderLayout.NORTH);
+
+        //centering input field
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        JLabel label = mainWindow.createLabel("Enter amount: ", 20);
+        amountField = new JTextField(20);
+        amountField.setFont(new Font("Serif", Font.PLAIN, 25));
+        centerPanel.add(label);
+        centerPanel.add(amountField);
+        add(centerPanel, BorderLayout.CENTER);
+
+        //action buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        JButton depositButton = new JButton("Confirm Deposit");
+        depositButton.setFont(new Font("Serif", Font.BOLD, 20));
+        depositButton.setBackground(Color.BLACK);
+        depositButton.setForeground(Color.WHITE);
+        depositButton.setFocusable(false);
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setFont(new Font("Serif", Font.BOLD, 20));
+        cancelButton.setBackground(Color.BLACK);
+        cancelButton.setForeground(Color.WHITE);
+        cancelButton.setFocusable(false);
+
+        depositButton.addActionListener(this::handleDeposit);
+        cancelButton.addActionListener(e -> mainWindow.showCard(MainWindow.MENU_CARD));
+
+        buttonPanel.add(depositButton);
+        buttonPanel.add(cancelButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private void handleDeposit(ActionEvent e) {
+        String text = amountField.getText();
+        if (text.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter an amount.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            double amount = Double.parseDouble(text);
+            //update balance
+            JOptionPane.showMessageDialog(this, "Deposited: " + amount + "TND", "Success", JOptionPane.INFORMATION_MESSAGE);
+            amountField.setText("");
+            mainWindow.showCard(MainWindow.MENU_CARD); //go back to menu after deposit
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid number.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
