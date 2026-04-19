@@ -104,6 +104,48 @@ public class MainWindow {
             }
         });
 
+        btnDepost.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("DEPOSING CASH");
+            }
+        });
+
+        btnCahsWithdrawl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("WITHDRAWING CASH");
+            }
+        });
+
+        btnPinChange.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("CHANGING PIN");
+            }
+        });
+
+        btnBalanceEquity.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("CHECKING BALANCE");
+            }
+        });
+
+        btnTransfer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("TRANSFERING MONEY");
+            }
+        });
+
+        btnMiniStatement.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("GETTING LAST TRANSACTION");
+            }
+        });
+
         //adding buttons to panel
         panelButton.add(btnDepost);
         panelButton.add(btnCahsWithdrawl);
