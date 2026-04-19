@@ -58,9 +58,9 @@ public class MainWindow {
         return btn;
     };
 
-    private JLabel createLabel(String message){
+    private JLabel createLabel(String message, int size){
         JLabel label = new JLabel(message);
-        label.setFont(new Font("Serif", Font.BOLD, 15));
+        label.setFont(new Font("Serif", Font.BOLD, size));
         label.setForeground(new Color(0, 0, 0));
         return label;
     }
@@ -71,11 +71,16 @@ public class MainWindow {
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); //set cross button to close window when clicked
         window.setSize(800,600); //set size
         window.setLayout(new BorderLayout(5,5));
-
+        
         JPanel panelText = new JPanel();
         panelText.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        JLabel label = createLabel("CHOOSE OPERATION");
+        JLabel label = createLabel("CHOOSE OPERATION",30);
         panelText.add(label);
+
+        JPanel panelFooter = new JPanel();
+        panelFooter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JLabel footer = createLabel("this app was made by BO7MID, DO NOT COPY!!",15);
+        panelFooter.add(footer);
 
         JPanel panelButton = new JPanel(); //Panel is a container for other Swing components
         panelButton.setLayout(new FlowLayout(FlowLayout.CENTER,10,5));
@@ -110,8 +115,8 @@ public class MainWindow {
 
 
         window.add(panelText, BorderLayout.NORTH);
-        window.add(new JButton("SOUTH"), BorderLayout.SOUTH);
         window.add(panelButton, BorderLayout.CENTER);
+        window.add(panelFooter, BorderLayout.SOUTH);
 
         window.setLocationRelativeTo(null); //center window
     }
