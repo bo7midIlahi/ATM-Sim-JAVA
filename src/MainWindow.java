@@ -17,6 +17,40 @@ public class MainWindow {
         btn.setBackground(new Color(0,0,0));
         btn.setForeground(new Color(255, 255, 255)); //set font color
         btn.setFocusable(false); //remove the box around text when clicked
+
+        switch (name) {
+            case "EXIT":
+                btn.setToolTipText("close the program");
+                break;
+            
+            case "DEPOSIT":
+                btn.setToolTipText("time to put some cheese on dat account");
+                break;
+
+            case "CASH WITHDRAWL":
+                btn.setToolTipText("pay them bills yo brokey");
+                break;
+
+            case "PIN CHANGE":
+                btn.setToolTipText("manage security yo idiot");
+                break;
+
+            case "BALANCE EQUITY":
+                btn.setToolTipText("see your balance peasant");
+                break;
+
+            case "TRANSFER":
+                btn.setToolTipText("give people their money yo thief");
+                break;
+
+            case "MINI STATEMENT":
+                btn.setToolTipText("watch your expenses BALVAN");
+                break;
+
+            default:
+                break;
+        }
+
         return btn;
     };
 
@@ -27,8 +61,8 @@ public class MainWindow {
         window.setSize(800,600); //set size
         window.setLayout(new BorderLayout(5,5));
 
-        JPanel panel = new JPanel(); //Panel is a container for other Swing components
-        panel.setLayout(new FlowLayout(FlowLayout.CENTER,10,5));
+        JPanel panelButton = new JPanel(); //Panel is a container for other Swing components
+        panelButton.setLayout(new FlowLayout(FlowLayout.CENTER,10,5));
         //panel.setBackground(Color.black);
 
         //creating buttons
@@ -41,18 +75,18 @@ public class MainWindow {
         JButton btnMiniStatement = createButton("MINI STATEMENT");
 
         //adding buttons to panel
-        panel.add(btnDepost);
-        panel.add(btnCahsWithdrawl);
-        panel.add(btnPinChange);
-        panel.add(btnBalanceEquity);
-        panel.add(btnTransfer);
-        panel.add(btnMiniStatement);
-        panel.add(btnExit);
+        panelButton.add(btnDepost);
+        panelButton.add(btnCahsWithdrawl);
+        panelButton.add(btnPinChange);
+        panelButton.add(btnBalanceEquity);
+        panelButton.add(btnTransfer);
+        panelButton.add(btnMiniStatement);
+        panelButton.add(btnExit);
 
 
         window.add(new JButton("NORTH"), BorderLayout.NORTH);
         window.add(new JButton("SOUTH"), BorderLayout.SOUTH);
-        window.add(panel, BorderLayout.CENTER);
+        window.add(panelButton, BorderLayout.CENTER);
 
         window.setLocationRelativeTo(null); //center window
     }
