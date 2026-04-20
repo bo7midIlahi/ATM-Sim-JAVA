@@ -75,7 +75,7 @@ public class MainWindow {
 
         //create the individual card panels
         JPanel menuPanel = createMenuPanel();
-        JPanel depositPanel = new DepositWindow(this); // pass MainWindow reference so DepositPanel can switch back
+        JPanel depositPanel = new DepositWindow(this, accountFile); // pass MainWindow reference so DepositPanel can switch back
 
         //add cards to the main panel
         mainPanel.add(menuPanel, MENU_CARD);

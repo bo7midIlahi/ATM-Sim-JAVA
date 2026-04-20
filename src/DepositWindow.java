@@ -1,13 +1,18 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import javax.swing.*;
 
 public class DepositWindow extends JPanel {
     private MainWindow mainWindow;
     private JTextField amountField;
+    private File accountFile;
 
-    public DepositWindow(MainWindow mainWindow) {
+    public DepositWindow(MainWindow mainWindow, File accountFile) {
         this.mainWindow = mainWindow;
+        this.accountFile = accountFile;
 
         setLayout(new BorderLayout(10, 10));
 
@@ -48,6 +53,28 @@ public class DepositWindow extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    private void updateBalance(double newBalance, File accountFile) {
+        try {
+            var lines = Files.readAllLines(accountFile.toPath());
+            if (lines.size() < 3) {
+                JOptionPane.showMessageDialog(this,
+                        "Account file is corrupted.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            //Update the third line (index 2)
+            lines.set(3, String.valueOf(newBalance));
+            Files.write(accountFile.toPath(), lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Failed to update balance: " + e.getMessage(),
+                    "File Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private void handleDeposit(ActionEvent e) {
         String text = amountField.getText();
         if (text.isEmpty()) {
@@ -56,12 +83,49 @@ public class DepositWindow extends JPanel {
         }
         try {
             double amount = Double.parseDouble(text);
-            //update balance
-            JOptionPane.showMessageDialog(this, "Deposited: " + amount + "TND", "Success", JOptionPane.INFORMATION_MESSAGE);
+            if (amount <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Amount must be positive.",
+                        "Invalid Amount",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Read current balance
+            try {
+                var lines = Files.readAllLines(accountFile.toPath());
+                if (lines.size() < 3) {
+                JOptionPane.showMessageDialog(this,
+                        "Account file is corrupted.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                        double currentBalance = Double.parseDouble(lines.get(3).trim());
+            double newBalance = currentBalance + amount;
+                // Update the file
+            updateBalance(newBalance, accountFile);
+
+            JOptionPane.showMessageDialog(this,
+                    "Deposited: " + amount + " TND\nNew balance: " + newBalance + " TND",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
             amountField.setText("");
-            mainWindow.showCard(MainWindow.MENU_CARD); //go back to menu after deposit
+            mainWindow.showCard(MainWindow.MENU_CARD); // go back to menu after deposit
+            }
+            
+            } catch (Exception e2) {
+            }
+            
+            
+
+            
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Invalid number.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            JOptionPane.showMessageDialog(this, "Invalid number format.", "Error", JOptionPane.ERROR_MESSAGE);
+        }/* catch (IOException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "Could not read account file.",
+                "File Error",
+                JOptionPane.ERROR_MESSAGE);
+        }*/
     }
 }
