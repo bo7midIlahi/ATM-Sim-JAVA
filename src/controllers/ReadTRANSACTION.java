@@ -17,7 +17,7 @@ public class ReadTRANSACTION {
                 Connection conn = DriverManager.getConnection(url);
                 Statement stmt = conn.createStatement()) {
 
-                System.out.println("Connected to accounts/myDB.db ✅");
+                System.out.println("Connected to accounts/myDB.db");
 
                 ResultSet rs = stmt.executeQuery("SELECT * FROM \"TRANSACTION\" WHERE CARD=="+CardNumber+"");
                 
@@ -28,10 +28,9 @@ public class ReadTRANSACTION {
                         rs.getString("DATE") + " | " +
                         rs.getDouble("MoneyMoved") + " | " +
                         rs.getString("SENDER") + " | " +
-                        rs.getString("RECEIVER")
+                        rs.getLong("RECEIVERCARD")
                     );
                 }
-
                 return rs;
             }
 
