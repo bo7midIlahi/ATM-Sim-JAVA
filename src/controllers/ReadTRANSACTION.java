@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class ReadUSER {
-    public static ResultSet read() {
+public class ReadTRANSACTION {
+    public static ResultSet read(Long CardNumber) {
         try {
             Class.forName("org.sqlite.JDBC");
 
@@ -19,17 +19,19 @@ public class ReadUSER {
 
                 System.out.println("Connected to accounts/myDB.db ✅");
 
-                ResultSet rs = stmt.executeQuery("SELECT * FROM \"USER\"");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM \"TRANSACTION\" WHERE CARD=="+CardNumber+"");
                 
                 while (rs.next()) {
                     System.out.println(
+                        rs.getInt("ID") + " | " +
                         rs.getLong("CARD") + " | " +
-                        rs.getInt("CVV") + " | " +
-                        rs.getInt("PIN") + " | " +
-                        rs.getDouble("BALANCE") + " | " +
-                        rs.getString("NAME")
+                        rs.getString("DATE") + " | " +
+                        rs.getDouble("MoneyMoved") + " | " +
+                        rs.getString("SENDER") + " | " +
+                        rs.getString("RECEIVER")
                     );
                 }
+
                 return rs;
             }
 
