@@ -1,42 +1,30 @@
 package controllers;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReadUSER {
-    public static ResultSet read() {
-        try {
-            Class.forName("org.sqlite.JDBC");
+    public static List<UserDTO> getAllUsers() {
+        List<UserDTO> users = new ArrayList<>();
+        String url = "jdbc:sqlite:accounts/myDB.db";
 
-            System.out.println(System.getProperty("user.dir"));
-            String url = "jdbc:sqlite:accounts/myDB.db";
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM USER")) {
 
-            try (
-                Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
-
-                System.out.println("Connected to accounts/myDB.db ✅");
-
-                ResultSet rs = stmt.executeQuery("SELECT * FROM \"USER\"");
-                
-                while (rs.next()) {
-                    System.out.println(
-                        rs.getLong("CARD") + " | " +
-                        rs.getInt("CVV") + " | " +
-                        rs.getInt("PIN") + " | " +
-                        rs.getDouble("BALANCE") + " | " +
-                        rs.getString("NAME")
-                    );
-                }
-                return rs;
+            while (rs.next()) {
+                users.add(new UserDTO(
+                    rs.getLong("CARD"),
+                    rs.getInt("CVV"),
+                    rs.getInt("PIN"),
+                    rs.getDouble("BALANCE"),
+                    rs.getString("NAME")
+                ));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            ResultSet rs = null;
-            return rs;
         }
+        return users;
     }
 }

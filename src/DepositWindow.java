@@ -10,7 +10,7 @@ public class DepositWindow extends JPanel {
     private JTextField amountField;
     private File accountFile;
 
-    public DepositWindow(MainWindow mainWindow, File accountFile) {
+    public DepositWindow(MainWindow mainWindow, Long CardNumber) {
         this.mainWindow = mainWindow;
         this.accountFile = accountFile;
 

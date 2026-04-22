@@ -1,3 +1,5 @@
+import controllers.ReadUSER;
+import controllers.UserDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,9 +9,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -123,40 +122,14 @@ public class VerifyAccount {
         exitButton.addActionListener(e -> System.exit(0));
     }
 
-    private boolean verifyCredentials(File accountFile, String cvv, String pin){
-        try {
-            List<String> lines = Files.readAllLines(accountFile.toPath());
-            if (lines.size() < 2) {
-                throw new IOException("Invalid account file format.");
+    private boolean userExists(long card, int cvv, int pin) {
+        List<UserDTO> users = ReadUSER.getAllUsers();
+        for (UserDTO user : users) {
+            if (user.card() == card && user.cvv() == cvv && user.pin() == pin) {
+                return true;
             }
-            String storedCvv = lines.get(1).trim();
-            String storedPin = lines.get(2).trim();
-            System.out.println("storedCvv = " + storedCvv);
-            System.out.println("storedPin = " + storedPin);
-
-            if (cvv.equals(storedCvv) && pin.equals(storedPin)) {
-                JOptionPane.showMessageDialog(window,
-                        "Verification successful!",
-                        "Welcome",
-                        JOptionPane.INFORMATION_MESSAGE);
-                window.dispose();
-                new MainWindow(accountFile).show();
-            } else {
-                JOptionPane.showMessageDialog(window,
-                        "Invalid CVV or PIN.",
-                        "Verification Failed",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(window,
-                    "Error reading account file.",
-                    "System Error",
-                    JOptionPane.ERROR_MESSAGE);
-            return false;
         }
-
-        return true;
+        return false;
     }
 
     private void handleCheck(ActionEvent e) {
@@ -167,7 +140,7 @@ public class VerifyAccount {
         String pin = new String(pinField.getPassword()).trim();
         System.out.println("card pin: "+pin);
 
-        // 
+        // verifying empty strings and length matching
         if (cardNumber.isEmpty() || cvv.isEmpty() || pin.isEmpty()) {
             JOptionPane.showMessageDialog(window,
                     "All fields are required.",
@@ -201,15 +174,23 @@ public class VerifyAccount {
         }
 
         //getting card number
-        File accountFile = new File("accounts", cardNumber + ".txt");
-        if (accountFile.exists() && verifyCredentials(accountFile,cvv,pin)) {
-            System.out.println("WELCOME - file found: " + accountFile.getName());
+        if (userExists(Long.parseLong(cardNumber), Integer.parseInt(cvv), Integer.parseInt(pin))) {
+            MainWindow mainWindow = new MainWindow(Long.valueOf(cardNumber));
+            mainWindow.show();
+        }else {
+            JOptionPane.showMessageDialog(window,
+                    "User Do Not Exist.",
+                    "Verification Failed",
+                    JOptionPane.ERROR_MESSAGE);
             
-        } else {
-            System.out.println("No account file found for card number: " + cardNumber);
+            //clear fields for retry
+            //cardNumberField.setText("");
+            cvvField.setText("");
+            pinField.setText("");
         }
 
         //debugging:card "1234567812345678", cvv "123", pin "1234"
+        /*
         if (cardNumber.equals("1234567812345678") && cvv.equals("123") && pin.equals("1234")) {
             JOptionPane.showMessageDialog(window,
                     "Verification successful!",
@@ -217,7 +198,7 @@ public class VerifyAccount {
                     JOptionPane.INFORMATION_MESSAGE);
             window.dispose(); // close verification window
             // Open main ATM window
-            MainWindow mainWindow = new MainWindow(accountFile);
+            MainWindow mainWindow = new MainWindow(Long.valueOf(cardNumber));
             mainWindow.show();
         } else {
             JOptionPane.showMessageDialog(window,
@@ -229,7 +210,7 @@ public class VerifyAccount {
             //cardNumberField.setText("");
             cvvField.setText("");
             pinField.setText("");
-        }
+        }*/
     }
 
     public void show() {

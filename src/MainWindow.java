@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -63,7 +62,7 @@ public class MainWindow {
         return label;
     }
 
-    public MainWindow(File accountFile) {
+    public MainWindow(Long CardNumber) {
         window = new JFrame();
         window.setTitle("ATM");
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -75,7 +74,7 @@ public class MainWindow {
 
         //create the individual card panels
         JPanel menuPanel = createMenuPanel();
-        JPanel depositPanel = new DepositWindow(this, accountFile); // pass MainWindow reference so DepositPanel can switch back
+        JPanel depositPanel = new DepositWindow(this, CardNumber); // pass MainWindow reference so DepositPanel can switch back
 
         //add cards to the main panel
         mainPanel.add(menuPanel, MENU_CARD);
