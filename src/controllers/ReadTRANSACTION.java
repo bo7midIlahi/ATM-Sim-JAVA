@@ -1,43 +1,34 @@
 package controllers;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReadTRANSACTION {
-    public static ResultSet read(Long CardNumber) {
-        try {
-            Class.forName("org.sqlite.JDBC");
+    public static List<TransactionDTO> getTransactionsForCard(Long cardNumber) {
+        List<TransactionDTO> transactions = new ArrayList<>();
+        String url = "jdbc:sqlite:accounts/myDB.db";
+        String sql = "SELECT * FROM \"TRANSACTION\" WHERE CARD = ? ORDER BY ID DESC";
 
-            System.out.println(System.getProperty("user.dir"));
-            String url = "jdbc:sqlite:accounts/myDB.db";
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            try (
-                Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
-
-                System.out.println("Connected to accounts/myDB.db");
-
-                ResultSet rs = stmt.executeQuery("SELECT * FROM \"TRANSACTION\" WHERE CARD=="+CardNumber+"");
-                
+            pstmt.setLong(1, cardNumber);
+            try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    System.out.println(
-                        rs.getInt("ID") + " | " +
-                        rs.getLong("CARD") + " | " +
-                        rs.getString("DATE") + " | " +
-                        rs.getDouble("MoneyMoved") + " | " +
-                        rs.getString("SENDER") + " | " +
+                    transactions.add(new TransactionDTO(
+                        rs.getInt("ID"),
+                        rs.getLong("CARD"),
+                        rs.getString("DATE"),
+                        rs.getDouble("MoneyMoved"),
+                        rs.getString("SENDER"),
                         rs.getLong("RECEIVERCARD")
-                    );
+                    ));
                 }
-                return rs;
             }
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-            ResultSet rs = null;
-            return rs;
         }
+        return transactions;
     }
 }

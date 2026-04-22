@@ -22,6 +22,7 @@ public class MainWindow {
     public static final String WITHDRAW_CARD = "Withdraw";
     public static final String BALANCE_CARD = "Balance";
     public static final String TRANSFER_CARD = "Transfer";
+    public static final String STATEMENT_CARD = "Statement";
 
     //styling helper
     public JButton createButton(String name) {
@@ -83,6 +84,7 @@ public class MainWindow {
         JPanel withdrawPanel = new WithdrawWindow(this, CardNumber); // pass MainWindow reference so WithdrawWindow can switch back
         JPanel balancePanel = new BalanceWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
         JPanel transferPanel = new TransferWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
+        JPanel statementPanel = new StatementWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
 
         //add cards to the main panel
         mainPanel.add(menuPanel, MENU_CARD);
@@ -91,6 +93,7 @@ public class MainWindow {
         mainPanel.add(withdrawPanel, WITHDRAW_CARD);
         mainPanel.add(balancePanel, BALANCE_CARD);
         mainPanel.add(transferPanel, TRANSFER_CARD);
+        mainPanel.add(statementPanel, STATEMENT_CARD);
 
         //add the main panel to the window
         window.add(mainPanel);
@@ -132,7 +135,7 @@ public class MainWindow {
         btnPinChange.addActionListener(e -> cardLayout.show(mainPanel, PIN_CARD));
         btnBalanceEquity.addActionListener(e -> cardLayout.show(mainPanel, BALANCE_CARD));
         btnTransfer.addActionListener(e -> cardLayout.show(mainPanel, TRANSFER_CARD));
-        btnMiniStatement.addActionListener(e -> System.out.println("GETTING LAST TRANSACTION"));
+        btnMiniStatement.addActionListener(e -> cardLayout.show(mainPanel, STATEMENT_CARD));
 
         panelButton.add(btnDeposit);
         panelButton.add(btnCashWithdrawal);
