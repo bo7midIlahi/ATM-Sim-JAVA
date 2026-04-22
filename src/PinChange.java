@@ -1,30 +1,30 @@
 import controllers.ReadUSER;
-import controllers.UpdateBalance;
+import controllers.UpdatePin;
 import controllers.UserDTO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.*;
 
-public class DepositWindow extends JPanel {
+public class PinChange extends JPanel {
     private MainWindow mainWindow;
     private JTextField amountField;
     private Long cardNumber;   // Store the card number as a field
 
-    public DepositWindow(MainWindow mainWindow, Long cardNumber) {
+    public PinChange(MainWindow mainWindow, Long cardNumber) {
         this.mainWindow = mainWindow;
         this.cardNumber = cardNumber;
 
         setLayout(new BorderLayout(10, 10));
 
         // Title
-        JLabel titleLabel = mainWindow.createLabel("DEPOSIT FUNDS", 30);
+        JLabel titleLabel = mainWindow.createLabel("PIN CHANGE", 30);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
 
         // Center: input field
         JPanel centerPanel = new JPanel(new GridBagLayout());
-        JLabel label = mainWindow.createLabel("Enter amount: ", 20);
+        JLabel label = mainWindow.createLabel("Enter new PIN: ", 20);
         amountField = new JTextField(20);
         amountField.setFont(new Font("Serif", Font.PLAIN, 25));
         centerPanel.add(label);
@@ -34,7 +34,7 @@ public class DepositWindow extends JPanel {
         // Bottom: action buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
-        JButton depositButton = new JButton("Confirm Deposit");
+        JButton depositButton = new JButton("Confirm PIN Change");
         depositButton.setFont(new Font("Serif", Font.BOLD, 20));
         depositButton.setBackground(Color.BLACK);
         depositButton.setForeground(Color.WHITE);
@@ -56,12 +56,12 @@ public class DepositWindow extends JPanel {
     }
 
     // update balance using the database helper
-    private void updateBalance(double newBalance) {
-        if (UpdateBalance.update(newBalance, cardNumber)) {
-            System.out.println("Balance updated successfully.");
+    private void updatePin(int pin) {
+        if (UpdatePin.update(pin, cardNumber)) {
+            System.out.println("PIN updated successfully.");
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Failed to update balance in database.",
+                    "Failed to update PIN in database.",
                     "Database Error",
                     JOptionPane.ERROR_MESSAGE);
         }
@@ -70,41 +70,37 @@ public class DepositWindow extends JPanel {
     // actionListener for deposit button – signature must be (ActionEvent e)
     private void handleDeposit(ActionEvent e) {
         String text = amountField.getText();
-        if (text.isEmpty()) {
+        if (!text.matches("\\d{4}")) {
             JOptionPane.showMessageDialog(this,
-                    "Please enter an amount.",
+                    "Please enter an valid 4 digit PIN.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         try {
-            double amount = Double.parseDouble(text);
-            if (amount <= 0) {
+            int pin = Integer.parseInt(text);
+            if (pin <= 0) {
                 JOptionPane.showMessageDialog(this,
-                        "Amount must be positive.",
-                        "Invalid Amount",
+                        "PIN must be positive.",
+                        "Invalid PIN",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // get current balance from database
-            double currentBalance = 0;
+            // get current card from database
             List<UserDTO> users = ReadUSER.getAllUsers();
             for (UserDTO user : users) {
                 if (user.card() == cardNumber) {
-                    currentBalance = user.balance();
                     break;
                 }
             }
 
-            double newBalance = currentBalance + amount;
-
             // apdate database
-            updateBalance(newBalance);
+            updatePin(pin);
 
             JOptionPane.showMessageDialog(this,
-                    "Deposited: " + amount + " TND\nNew balance: " + newBalance + " TND",
+                    "New PIN: " + pin,
                     "Success",
                     JOptionPane.INFORMATION_MESSAGE);
 
