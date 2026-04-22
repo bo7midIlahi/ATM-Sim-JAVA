@@ -21,6 +21,7 @@ public class MainWindow {
     public static final String PIN_CARD = "Pin";
     public static final String WITHDRAW_CARD = "Withdraw";
     public static final String BALANCE_CARD = "Balance";
+    public static final String TRANSFER_CARD = "Transfer";
 
     //styling helper
     public JButton createButton(String name) {
@@ -78,9 +79,10 @@ public class MainWindow {
         //create the individual card panels
         JPanel menuPanel = createMenuPanel();
         JPanel depositPanel = new DepositWindow(this, CardNumber); // pass MainWindow reference so DepositPanel can switch back
-        JPanel pinChange = new PinChange(this, CardNumber); // pass MainWindow reference so DepositPanel can switch back
-        JPanel withdrawPanel = new WithdrawWindow(this, CardNumber); // pass MainWindow reference so DepositPanel can switch back
-        JPanel balancePanel = new BalanceWindow(this, CardNumber); // pass MainWindow reference so DepositPanel can switch back
+        JPanel pinChange = new PinChange(this, CardNumber); // pass MainWindow reference so PinChange can switch back
+        JPanel withdrawPanel = new WithdrawWindow(this, CardNumber); // pass MainWindow reference so WithdrawWindow can switch back
+        JPanel balancePanel = new BalanceWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
+        JPanel transferPanel = new TransferWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
 
         //add cards to the main panel
         mainPanel.add(menuPanel, MENU_CARD);
@@ -88,6 +90,7 @@ public class MainWindow {
         mainPanel.add(pinChange, PIN_CARD);
         mainPanel.add(withdrawPanel, WITHDRAW_CARD);
         mainPanel.add(balancePanel, BALANCE_CARD);
+        mainPanel.add(transferPanel, TRANSFER_CARD);
 
         //add the main panel to the window
         window.add(mainPanel);
@@ -128,7 +131,7 @@ public class MainWindow {
         btnCashWithdrawal.addActionListener(e -> cardLayout.show(mainPanel, WITHDRAW_CARD));
         btnPinChange.addActionListener(e -> cardLayout.show(mainPanel, PIN_CARD));
         btnBalanceEquity.addActionListener(e -> cardLayout.show(mainPanel, BALANCE_CARD));
-        btnTransfer.addActionListener(e -> System.out.println("TRANSFERING MONEY"));
+        btnTransfer.addActionListener(e -> cardLayout.show(mainPanel, TRANSFER_CARD));
         btnMiniStatement.addActionListener(e -> System.out.println("GETTING LAST TRANSACTION"));
 
         panelButton.add(btnDeposit);
