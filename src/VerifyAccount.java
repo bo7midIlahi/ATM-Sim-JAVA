@@ -175,6 +175,7 @@ public class VerifyAccount {
 
         //getting card number
         if (userExists(Long.parseLong(cardNumber), Integer.parseInt(cvv), Integer.parseInt(pin))) {
+            window.dispose();
             MainWindow mainWindow = new MainWindow(Long.valueOf(cardNumber));
             mainWindow.show();
         }else {
