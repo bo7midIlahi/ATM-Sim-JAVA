@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class UpdateBalance {
-    public static boolean  update(float amount, Long CardNumber) {
+    public static boolean  update(double amount, Long CardNumber) {
         var url = "jdbc:sqlite:accounts/myDB.db";
         var sql = "UPDATE USER SET BALANCE = ? WHERE CARD = ?";
 

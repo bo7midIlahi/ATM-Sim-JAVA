@@ -22,6 +22,8 @@ public class ReadUSER {
                     rs.getString("NAME")
                 ));
             }
+            System.out.println("users = "+users);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
