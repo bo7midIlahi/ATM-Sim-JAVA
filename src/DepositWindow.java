@@ -9,7 +9,7 @@ import javax.swing.*;
 public class DepositWindow extends JPanel {
     private MainWindow mainWindow;
     private JTextField amountField;
-    private Long cardNumber;   // Store the card number as a field
+    private Long cardNumber;
 
     public DepositWindow(MainWindow mainWindow, Long cardNumber) {
         this.mainWindow = mainWindow;
@@ -46,7 +46,6 @@ public class DepositWindow extends JPanel {
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setFocusable(false);
 
-        // use lambda with no extra parameters
         depositButton.addActionListener(this::handleDeposit);
         cancelButton.addActionListener(e -> mainWindow.showCard(MainWindow.MENU_CARD));
 
@@ -67,7 +66,6 @@ public class DepositWindow extends JPanel {
         }
     }
 
-    // actionListener for deposit button – signature must be (ActionEvent e)
     private void handleDeposit(ActionEvent e) {
         String text = amountField.getText();
         if (text.isEmpty()) {

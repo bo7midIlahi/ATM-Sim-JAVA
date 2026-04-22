@@ -83,8 +83,8 @@ public class MainWindow {
         JPanel pinChange = new PinChange(this, CardNumber); // pass MainWindow reference so PinChange can switch back
         JPanel withdrawPanel = new WithdrawWindow(this, CardNumber); // pass MainWindow reference so WithdrawWindow can switch back
         JPanel balancePanel = new BalanceWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
-        JPanel transferPanel = new TransferWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
-        JPanel statementPanel = new StatementWindow(this, CardNumber); // pass MainWindow reference so BalanceWindow can switch back
+        JPanel transferPanel = new TransferWindow(this, CardNumber); // pass MainWindow reference so TransferWindow can switch back
+        JPanel statementPanel = new StatementWindow(this, CardNumber); // pass MainWindow reference so StatementWindow can switch back
 
         //add cards to the main panel
         mainPanel.add(menuPanel, MENU_CARD);

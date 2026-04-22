@@ -61,8 +61,6 @@ public class StatementWindow extends JPanel {
             String description;
             double amount = t.moneyMoved();
 
-            // Determine if it's a debit or credit based on your business logic
-            // Assuming positive amount = deposit/credit, negative = withdrawal/debit
             if (amount >= 0) {
                 description = "Transfer from " + t.sender();
             } else {

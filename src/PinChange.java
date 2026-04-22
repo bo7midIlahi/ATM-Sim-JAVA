@@ -67,7 +67,6 @@ public class PinChange extends JPanel {
         }
     }
 
-    // actionListener for deposit button – signature must be (ActionEvent e)
     private void handleDeposit(ActionEvent e) {
         String text = amountField.getText();
         if (!text.matches("\\d{4}")) {
